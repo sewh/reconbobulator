@@ -1,4 +1,4 @@
-#!/bin/env ruby
+#!/usr/bin/env ruby
 require 'pastel'
 
 $p = Pastel.new
