@@ -55,10 +55,9 @@ end
 
 def big_nmap(host)
   filename = Time.new.strftime('%Y-%m-%d_%H-%M-%S_bignmap')
-  puts_info("Running big nmap. Saving to #{filename}.{nmap,gnmap,xml}")
 
   command = "nmap "
-  command += "-Pn -A -sV -sU --top-ports=1000 -T5 -vv "
+  command += "-Pn -A -sV --top-ports=1000 -T5 -vv "
   command += "--script="
   command += "smb-enum-shares.nse,"
   command += "smb-enum-users.nse,"
@@ -74,7 +73,15 @@ def big_nmap(host)
 
   puts_info("Going to run #{command}")
 
-  system("sudo " + command)
+  system("sudo #{command}")
+end
+
+def unicorn_udp_scan(host)
+  filename = Time.new.strftime('%Y-%m-%d_%H-%M-%S_udpscan')
+  command = "unicornscan -mU #{host} > #{filename}"
+  puts_info("Running #{command}")
+
+  system("sudo #{command}")
 end
 
 def enum_four_linux(host)
@@ -106,6 +113,7 @@ def main
 
   puts_info("Starting the scan!")
   big_nmap(host)
+  unicorn_udp_scan(host)
   enum_four_linux(host)
   run_snmp_check(host)
 end
