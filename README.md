@@ -4,6 +4,7 @@ Reconbobulator
 Reconbobulator is a little script to automate some of the "greeting" scans I do of hosts when I first meet them in the OSCP. It works on Kali Linux. It does;
 
 * A comprehensive nmap scan with SMB scripts enabled;
+* A UDP scan using unicornscan to enumerate UDP services; 
 * An enum4linux scan just to be safe;
 * SNMP checks for three common community strings (public, private, manager).
 
