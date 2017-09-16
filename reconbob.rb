@@ -79,16 +79,18 @@ end
 
 def enum_four_linux(host)
   filename = Time.new.strftime('%Y-%m-%d_%H-%M-%S_enum4linux.txt')
-  puts_info("Running enum4linux. Saving to #{filename}")
+  command = "enum4linux #{host} > #{filename}"
+  puts_info("Running #{command}")
 
-  system("enum4linux #{host} > #{filename}")
+  system(command)
 end
 
 def run_snmp_check(host)
   ["public", "private", "manager"].each { |community|
     filename = Time.new.strftime("%Y-%m-%d_%H-%M-%S_snmp_#{community}.txt")
-    puts_info("Running snmp-check with community string #{community}. Outputting to #{filename}.")
-    system("snmp-check -c #{community} #{host} > #{filename}")
+    command = "snmp-check -c #{community} #{host} > #{filename}"
+    puts_info("Running #{command}")
+    system(command)
   }
 end
 
