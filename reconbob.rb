@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'pastel'
+require 'socket'
 
 $p = Pastel.new
 
@@ -102,6 +103,34 @@ def run_snmp_check(host)
   }
 end
 
+def run_nikto(host)
+  if can_connect?(host, 80)
+    command = "nikto -host http://#{host} -output .txt"
+    puts_info("Running #{command}")
+    system(command)
+  else
+    puts_info("No HTTP server found")
+  end
+
+  if can_connect?(host, 443)
+    command = "nikto -host https://#{host} -output .txt"
+    puts_info("Running #{command}")
+    system(command)
+  else
+    puts_info("No HTTPS server found")
+  end
+end
+
+def can_connect?(host, port)
+  begin
+    s = TCPSocket.new(host, port)
+    s.close()
+    return true
+  rescue => exception
+    return false
+  end  
+end
+
 def main
   put_banner
   continue = issue_warning
@@ -116,6 +145,7 @@ def main
   unicorn_udp_scan(host)
   enum_four_linux(host)
   run_snmp_check(host)
+  run_nikto(host)
 end
 
 main
