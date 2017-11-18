@@ -105,7 +105,7 @@ end
 
 def run_nikto(host)
   if can_connect?(host, 80)
-    command = "nikto -host http://#{host} -output .txt"
+    command = "nikto -output port80.txt -host http://#{host}"
     puts_info("Running #{command}")
     system(command)
   else
@@ -113,7 +113,7 @@ def run_nikto(host)
   end
 
   if can_connect?(host, 443)
-    command = "nikto -host https://#{host} -output .txt"
+    command = "nikto -output port443.txt -host https://#{host}"
     puts_info("Running #{command}")
     system(command)
   else
